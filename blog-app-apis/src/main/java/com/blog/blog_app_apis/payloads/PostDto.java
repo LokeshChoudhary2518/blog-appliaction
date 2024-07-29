@@ -3,10 +3,32 @@ package com.blog.blog_app_apis.payloads;
 import java.util.Date;
 
 public class PostDto {
+	
+	private Integer postId;
 
 	private String title;
 
 	private String content;
+
+	public PostDto(Integer postId, String title, String content, String imageName, Date addedDate, CatagoryDto catagory,
+			UserDto user) {
+		super();
+		this.postId = postId;
+		this.title = title;
+		this.content = content;
+		this.imageName = imageName;
+		this.addedDate = addedDate;
+		this.catagory = catagory;
+		this.user = user;
+	}
+
+	public Integer getPostId() {
+		return postId;
+	}
+
+	public void setPostId(Integer postId) {
+		this.postId = postId;
+	}
 
 	private String imageName;
 
