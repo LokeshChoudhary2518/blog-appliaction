@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.blog_app_apis.payloads.ApiResponse;
 import com.blog.blog_app_apis.payloads.PostDto;
+import com.blog.blog_app_apis.payloads.PostResponse;
 import com.blog.blog_app_apis.services.PostService;
 
 @RestController
@@ -49,12 +51,25 @@ public class PostController {
 	}
 	
 	@GetMapping("/posts")
-	public ResponseEntity<List<PostDto>> getAllPost()
+	public ResponseEntity<PostResponse> getAllPost(
+			@RequestParam(value = "pageNumber", defaultValue ="0", required = false) Integer pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+	        @RequestParam(value = "sortBy", defaultValue ="postId", required = false)String sortBy,
+	        @RequestParam(value= "sortDir", defaultValue= "asc", required = false)String sortDir)
 	{
-	   List<PostDto> allPost = this.postService.getAllPost();
+		PostResponse postResponse = this.postService.getAllPost(pageNumber, pageSize, sortBy, sortDir);
 	   
-	   return new ResponseEntity<List<PostDto>>(allPost, HttpStatus.OK);
+	   return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
 	}
+	
+	
+//	@GetMapping("/posts")
+//	public ResponseEntity<List<PostDto>> getAllPost()
+//	{
+//	   List<PostDto> allPost = this.postService.getAllPost();
+//	   
+//	   return new ResponseEntity<List<PostDto>>(allPost, HttpStatus.OK);
+//	}
 	
 	@GetMapping("/posts/{postId}")
 	public ResponseEntity<PostDto>getAllPost(@PathVariable Integer postId)
