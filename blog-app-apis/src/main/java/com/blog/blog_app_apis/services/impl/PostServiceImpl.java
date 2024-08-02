@@ -81,7 +81,17 @@ public class PostServiceImpl implements PostService {
 //		int pageSize=5;
 //		int pageNumber=1;
 		
-		Pageable p = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+		Sort sort = (sortDir.equalsIgnoreCase("asc"))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+		
+//		if(sortDir.equalsIgnoreCase("asc"))
+////		{
+////			sort = Sort.by(sortBy).ascending();
+////		}
+////		else
+////		{
+////			sort = Sort.by(sortBy).descending();
+////		}
+		Pageable p = PageRequest.of(pageNumber, pageSize, sort);
 		
 		Page<Post> pagePost = this.postRepo.findAll(p);
 		
@@ -147,7 +157,7 @@ public class PostServiceImpl implements PostService {
 
 		User user = this.userRepo.findById(userId)
 				.orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
-		List<Post> posts = this.postRepo.findAllByUser(user);
+		List<Post> posts = this.postRepo.findAByUser(user);
 		List<PostDto> postDtos = posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class))
 				.collect(Collectors.toList());
 
@@ -155,14 +165,10 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostDto> searchPosts(String keyword) {
-//		
-//		 this.
-//		 List<Post> posts = this.postRepo.findByTitleContainingOrContentContaining(keyword, keyword);
-//	        return posts.stream()
-//	                    .map(this::convertToDto)
-//	                    .collect(Collectors.toList());
-		return null;
+	public List<PostDto> searchPosts(String keywords) {
+		List<Post> posts = this.postRepo.findBytitleContaining(keywords);
+        List<PostDto> postDtos = posts.stream().map((post) ->this.modelMapper.map(post,  PostDto.class)).collect(Collectors.toList());
+		return postDtos;
 	    }
 		
 	}

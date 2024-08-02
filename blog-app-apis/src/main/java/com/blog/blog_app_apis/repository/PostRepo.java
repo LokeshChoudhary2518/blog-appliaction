@@ -9,9 +9,11 @@ import com.blog.blog_app_apis.entities.Post;
 import com.blog.blog_app_apis.entities.User;
 
 public interface PostRepo extends JpaRepository<Post, Integer> {
+
+	List<Post> findAByUser(User user);
+
+	List<Post> findByCatagory(Catagory catagory);
 	
-  List<Post> findAllByUser(User user);
-  List<Post> findAllByCatagory(Catagory catagory);
-  List<Post> findByCatagory(Catagory catagory);
-  
+	List<Post> findBytitleContaining(String title);
+
 }
