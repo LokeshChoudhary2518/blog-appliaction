@@ -1,6 +1,8 @@
 package com.blog.blog_app_apis.payloads;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PostDto {
 	
@@ -9,6 +11,35 @@ public class PostDto {
 	private String title;
 
 	private String content;
+	
+	
+
+	
+
+	public PostDto(Integer postId, String title, String content, Set<CommentDto> comments, String imageName,
+			Date addedDate, CatagoryDto catagory, UserDto user) {
+		super();
+		this.postId = postId;
+		this.title = title;
+		this.content = content;
+		this.comments = comments;
+		this.imageName = imageName;
+		this.addedDate = addedDate;
+		this.catagory = catagory;
+		this.user = user;
+	}
+
+	public Set<CommentDto> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<CommentDto> comments) {
+		this.comments = comments;
+	}
+
+
+
+	private Set<CommentDto> comments = new HashSet<>();
 
 	public PostDto(Integer postId, String title, String content, String imageName, Date addedDate, CatagoryDto catagory,
 			UserDto user) {
